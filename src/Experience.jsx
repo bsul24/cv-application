@@ -35,6 +35,46 @@ export default function Experience() {
     setTempExperienceData([]);
   }
 
+  function handleResponsibilityChange(e, cur, responsibility) {
+    setTempExperienceData(
+      tempExperienceData.map((el) => {
+        if (el.id === cur.id) {
+          const newResponsibilities = el.responsibilities.map(
+            (curResponsibility) =>
+              curResponsibility.id === responsibility.id
+                ? {
+                    ...curResponsibility,
+                    text: e.target.value,
+                  }
+                : curResponsibility,
+          );
+
+          return {
+            ...el,
+            responsibilities: newResponsibilities,
+          };
+        }
+        return { ...el };
+      }),
+    );
+  }
+
+  function handleAddResponsibility(id) {
+    setTempExperienceData(
+      tempExperienceData.map((exp) => {
+        if (exp.id === id) {
+          const newExp = {
+            ...exp,
+            responsibilities: [...exp.responsibilities],
+          };
+          newExp.responsibilities.push({ text: "", id: crypto.randomUUID() });
+          return newExp;
+        }
+        return exp;
+      }),
+    );
+  }
+
   if (editingId !== null) {
     const cur = tempExperienceData.find((el) => el.id === editingId);
 
@@ -130,35 +170,17 @@ export default function Experience() {
                     name={responsibilityId}
                     id={responsibilityId}
                     value={responsibility.text}
-                    onChange={(e) => {
-                      setTempExperienceData(
-                        tempExperienceData.map((el) => {
-                          if (el.id === cur.id) {
-                            const newResponsibilities = el.responsibilities.map(
-                              (curResponsibility) =>
-                                curResponsibility.id === responsibility.id
-                                  ? {
-                                      ...curResponsibility,
-                                      text: e.target.value,
-                                    }
-                                  : curResponsibility,
-                            );
-
-                            return {
-                              ...el,
-                              responsibilities: newResponsibilities,
-                            };
-                          }
-                          return { ...el };
-                        }),
-                      );
-                    }}
+                    onChange={(e) =>
+                      handleResponsibilityChange(e, cur, responsibility)
+                    }
                   />
                 </div>
               );
             })}
           </fieldset>
-          <button type="button">Add Responsibility</button>
+          <button type="button" onClick={() => handleAddResponsibility(cur.id)}>
+            Add Responsibility
+          </button>
         </div>
         <button type="submit">Submit</button>
         <button
@@ -212,3 +234,5 @@ export default function Experience() {
     </section>
   );
 }
+
+// User can currently edit the one single experience section. They can also only edit the rigid three responsibility inputs that are given. Need to make the add responsibility button work and also make a way to delete responsibilities. Then add the logic for adding experience sections. Should also add logic to this and Education component to delete a section.
