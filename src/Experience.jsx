@@ -75,6 +75,10 @@ export default function Experience() {
     );
   }
 
+  function handleDeleteExperience(id) {
+    setExperienceData(experienceData.filter((data) => data.id !== id));
+  }
+
   if (editingId !== null) {
     const cur = tempExperienceData.find((el) => el.id === editingId);
 
@@ -224,6 +228,12 @@ export default function Experience() {
               }}
             >
               Edit
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDeleteExperience(cur.id)}
+            >
+              Delete Experience
             </button>
           </div>
         );

@@ -53,6 +53,10 @@ export default function Education() {
     setAddingEducation(false);
   }
 
+  function handleDeleteEducation(id) {
+    setEducationData(educationData.filter((data) => data.id !== id));
+  }
+
   if (editingId !== null) {
     const cur = tempEducationData.find((el) => el.id === editingId);
 
@@ -227,6 +231,9 @@ export default function Education() {
               }}
             >
               Edit
+            </button>
+            <button type="button" onClick={() => handleDeleteEducation(cur.id)}>
+              Delete Education
             </button>
           </div>
         );
