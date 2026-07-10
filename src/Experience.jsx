@@ -23,6 +23,9 @@ export default function Experience() {
     createExperienceEntry(),
   ]);
   const [tempExperienceData, setTempExperienceData] = useState([]);
+  const [newExperienceResp, setNewExperienceResp] = useState([
+    { text: "", id: crypto.randomUUID() },
+  ]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -78,6 +81,46 @@ export default function Experience() {
   function handleDeleteExperience(id) {
     setExperienceData(experienceData.filter((data) => data.id !== id));
   }
+
+  function handleChangeNewResponsibility(e, resp) {
+    setNewExperienceResp(
+      newExperienceResp.map((cur) =>
+        cur.id === resp.id ? { ...cur, text: e.target.value } : { ...cur },
+      ),
+    );
+  }
+
+  function handleNewExperienceSubmit(e) {
+    e.preventDefault();
+
+    const newExperienceForm = new FormData(e.target);
+
+    const newExperience = {
+      company: newExperienceForm.get("company"),
+      start: newExperienceForm.get("start"),
+      end: newExperienceForm.get("end"),
+      position: newExperienceForm.get("position"),
+      location: newExperienceForm.get("location"),
+      responsibilities: newExperienceResp,
+      id: crypto.randomUUID(),
+    };
+
+    setExperienceData((prev) => [...prev, newExperience]);
+    setAddingExperience(null);
+    setNewExperienceResp([{ text: "", id: crypto.randomUUID() }]);
+  }
+
+  // company: "Fake Company",
+  //   start: 2020,
+  //   end: 2023,
+  //   position: "Business Person",
+  //   location: "New York, NY",
+  //   responsibilities: [
+  //     { text: "Finished a project.", id: crypto.randomUUID() },
+  //     { text: "Trained some people.", id: crypto.randomUUID() },
+  //     { text: "Increased revenue.", id: crypto.randomUUID() },
+  //   ],
+  //   id: crypto.randomUUID(),
 
   if (editingId !== null) {
     const cur = tempExperienceData.find((el) => el.id === editingId);
@@ -192,6 +235,68 @@ export default function Experience() {
           onClick={() => {
             setEditingId(null);
             setTempExperienceData([]);
+          }}
+        >
+          Cancel
+        </button>
+      </form>
+    );
+  }
+
+  if (addingExperience !== null) {
+    return (
+      <form
+        onSubmit={handleNewExperienceSubmit}
+        className="new-experience-form"
+      >
+        <label htmlFor="company">Company</label>
+        <input type="text" name="company" id="company" />
+        <label htmlFor="start">Start</label>
+        <input type="text" name="start" id="start" />
+        <label htmlFor="end">End</label>
+        <input type="text" name="end" id="end" />
+        <label htmlFor="position">Position</label>
+        <input type="text" name="position" id="position" />
+        <label htmlFor="location">Location</label>
+        <input type="text" name="location" id="location" />
+        <fieldset>
+          <legend>Responsibilities</legend>
+          {newExperienceResp.map((resp, index) => {
+            const responsibilityId = `responsibility-${resp.id}-${index}`;
+
+            return (
+              <div key={resp.id}>
+                <label htmlFor={responsibilityId}>
+                  Responsibility {index + 1}
+                </label>
+                <input
+                  type="text"
+                  name={responsibilityId}
+                  id={responsibilityId}
+                  value={resp.text}
+                  onChange={(e) => handleChangeNewResponsibility(e, resp)}
+                />
+              </div>
+            );
+          })}
+          <button
+            type="button"
+            onClick={() =>
+              setNewExperienceResp([
+                ...newExperienceResp,
+                { text: "", id: crypto.randomUUID() },
+              ])
+            }
+          >
+            Add Responsibility
+          </button>
+        </fieldset>
+        <button type="submit">Submit</button>
+        <button
+          type="button"
+          onClick={() => {
+            setAddingExperience(null);
+            setNewExperienceResp([{ text: "", id: crypto.randomUUID() }]);
           }}
         >
           Cancel
