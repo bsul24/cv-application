@@ -78,6 +78,23 @@ export default function Experience() {
     );
   }
 
+  function handleDeleteEditResponsibility(expId, respId) {
+    setTempExperienceData(
+      tempExperienceData.map((exp) => {
+        if (exp.id === expId) {
+          const newExp = {
+            ...exp,
+            responsibilities: exp.responsibilities.filter(
+              (resp) => resp.id !== respId,
+            ),
+          };
+          return newExp;
+        }
+        return exp;
+      }),
+    );
+  }
+
   function handleDeleteExperience(id) {
     setExperienceData(experienceData.filter((data) => data.id !== id));
   }
@@ -108,6 +125,10 @@ export default function Experience() {
     setExperienceData((prev) => [...prev, newExperience]);
     setAddingExperience(null);
     setNewExperienceResp([{ text: "", id: crypto.randomUUID() }]);
+  }
+
+  function handleDeleteResponsibility(id) {
+    setNewExperienceResp(newExperienceResp.filter((exp) => exp.id !== id));
   }
 
   // company: "Fake Company",
@@ -221,6 +242,14 @@ export default function Experience() {
                       handleResponsibilityChange(e, cur, responsibility)
                     }
                   />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleDeleteEditResponsibility(cur.id, responsibility.id)
+                    }
+                  >
+                    Delete
+                  </button>
                 </div>
               );
             })}
@@ -276,6 +305,12 @@ export default function Experience() {
                   value={resp.text}
                   onChange={(e) => handleChangeNewResponsibility(e, resp)}
                 />
+                <button
+                  type="button"
+                  onClick={() => handleDeleteResponsibility(resp.id)}
+                >
+                  Delete
+                </button>
               </div>
             );
           })}
