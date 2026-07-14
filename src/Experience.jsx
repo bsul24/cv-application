@@ -3,8 +3,8 @@ import { useState } from "react";
 function createExperienceEntry() {
   return {
     company: "Fake Company",
-    start: 2020,
-    end: 2023,
+    start: "2020",
+    end: "2023",
     position: "Business Person",
     location: "New York, NY",
     responsibilities: [
@@ -18,12 +18,12 @@ function createExperienceEntry() {
 
 export default function Experience() {
   const [editingId, setEditingId] = useState(null);
-  const [addingExperience, setAddingExperience] = useState(null);
+  const [addingExperience, setAddingExperience] = useState(false);
   const [experienceData, setExperienceData] = useState(() => [
     createExperienceEntry(),
   ]);
   const [tempExperienceData, setTempExperienceData] = useState([]);
-  const [newExperienceResp, setNewExperienceResp] = useState([
+  const [newExperienceResp, setNewExperienceResp] = useState(() => [
     { text: "", id: crypto.randomUUID() },
   ]);
 
@@ -39,8 +39,8 @@ export default function Experience() {
   }
 
   function handleResponsibilityChange(e, cur, responsibility) {
-    setTempExperienceData(
-      tempExperienceData.map((el) => {
+    setTempExperienceData((prev) =>
+      prev.map((el) => {
         if (el.id === cur.id) {
           const newResponsibilities = el.responsibilities.map(
             (curResponsibility) =>
@@ -57,20 +57,23 @@ export default function Experience() {
             responsibilities: newResponsibilities,
           };
         }
-        return { ...el };
+        return el;
       }),
     );
   }
 
   function handleAddResponsibility(id) {
-    setTempExperienceData(
-      tempExperienceData.map((exp) => {
+    setTempExperienceData((prev) =>
+      prev.map((exp) => {
         if (exp.id === id) {
           const newExp = {
             ...exp,
-            responsibilities: [...exp.responsibilities],
+            responsibilities: [
+              ...exp.responsibilities,
+              { text: "", id: crypto.randomUUID() },
+            ],
           };
-          newExp.responsibilities.push({ text: "", id: crypto.randomUUID() });
+
           return newExp;
         }
         return exp;
@@ -79,8 +82,8 @@ export default function Experience() {
   }
 
   function handleDeleteEditResponsibility(expId, respId) {
-    setTempExperienceData(
-      tempExperienceData.map((exp) => {
+    setTempExperienceData((prev) =>
+      prev.map((exp) => {
         if (exp.id === expId) {
           const newExp = {
             ...exp,
@@ -96,13 +99,13 @@ export default function Experience() {
   }
 
   function handleDeleteExperience(id) {
-    setExperienceData(experienceData.filter((data) => data.id !== id));
+    setExperienceData((prev) => prev.filter((data) => data.id !== id));
   }
 
   function handleChangeNewResponsibility(e, resp) {
-    setNewExperienceResp(
-      newExperienceResp.map((cur) =>
-        cur.id === resp.id ? { ...cur, text: e.target.value } : { ...cur },
+    setNewExperienceResp((prev) =>
+      prev.map((cur) =>
+        cur.id === resp.id ? { ...cur, text: e.target.value } : cur,
       ),
     );
   }
@@ -118,30 +121,20 @@ export default function Experience() {
       end: newExperienceForm.get("end"),
       position: newExperienceForm.get("position"),
       location: newExperienceForm.get("location"),
-      responsibilities: newExperienceResp,
+      responsibilities: newExperienceResp.filter(
+        (resp) => resp.text.trim() !== "",
+      ),
       id: crypto.randomUUID(),
     };
 
     setExperienceData((prev) => [...prev, newExperience]);
-    setAddingExperience(null);
+    setAddingExperience(false);
     setNewExperienceResp([{ text: "", id: crypto.randomUUID() }]);
   }
 
   function handleDeleteResponsibility(id) {
-    setNewExperienceResp(newExperienceResp.filter((exp) => exp.id !== id));
+    setNewExperienceResp((prev) => prev.filter((exp) => exp.id !== id));
   }
-
-  // company: "Fake Company",
-  //   start: 2020,
-  //   end: 2023,
-  //   position: "Business Person",
-  //   location: "New York, NY",
-  //   responsibilities: [
-  //     { text: "Finished a project.", id: crypto.randomUUID() },
-  //     { text: "Trained some people.", id: crypto.randomUUID() },
-  //     { text: "Increased revenue.", id: crypto.randomUUID() },
-  //   ],
-  //   id: crypto.randomUUID(),
 
   if (editingId !== null) {
     const cur = tempExperienceData.find((el) => el.id === editingId);
@@ -152,7 +145,7 @@ export default function Experience() {
 
     return (
       <form onSubmit={handleSubmit}>
-        <div className="experience-info-block" key={cur.id}>
+        <div className="experience-info-block">
           <label htmlFor={"company-" + cur.id}>Company</label>
           <input
             type="text"
@@ -218,7 +211,7 @@ export default function Experience() {
             onChange={(e) => {
               setTempExperienceData(
                 tempExperienceData.map((el) =>
-                  el.id === cur.id ? { ...el, position: e.target.value } : el,
+                  el.id === cur.id ? { ...el, location: e.target.value } : el,
                 ),
               );
             }}
@@ -229,7 +222,7 @@ export default function Experience() {
               const responsibilityId = `responsibility-${cur.id}-${index}`;
 
               return (
-                <div key={responsibilityId}>
+                <div key={responsibility.id}>
                   <label htmlFor={responsibilityId}>
                     Responsibility {index + 1}
                   </label>
@@ -272,22 +265,22 @@ export default function Experience() {
     );
   }
 
-  if (addingExperience !== null) {
+  if (addingExperience) {
     return (
       <form
         onSubmit={handleNewExperienceSubmit}
         className="new-experience-form"
       >
-        <label htmlFor="company">Company</label>
-        <input type="text" name="company" id="company" />
-        <label htmlFor="start">Start</label>
-        <input type="text" name="start" id="start" />
-        <label htmlFor="end">End</label>
-        <input type="text" name="end" id="end" />
-        <label htmlFor="position">Position</label>
-        <input type="text" name="position" id="position" />
-        <label htmlFor="location">Location</label>
-        <input type="text" name="location" id="location" />
+        <label htmlFor="experience-company">Company</label>
+        <input type="text" name="company" id="experience-company" />
+        <label htmlFor="experience-start">Start</label>
+        <input type="text" name="start" id="experience-start" />
+        <label htmlFor="experience-end">End</label>
+        <input type="text" name="end" id="experience-end" />
+        <label htmlFor="experience-position">Position</label>
+        <input type="text" name="position" id="experience-position" />
+        <label htmlFor="experience-location">Location</label>
+        <input type="text" name="location" id="experience-location" />
         <fieldset>
           <legend>Responsibilities</legend>
           {newExperienceResp.map((resp, index) => {
@@ -317,8 +310,8 @@ export default function Experience() {
           <button
             type="button"
             onClick={() =>
-              setNewExperienceResp([
-                ...newExperienceResp,
+              setNewExperienceResp((prev) => [
+                ...prev,
                 { text: "", id: crypto.randomUUID() },
               ])
             }
@@ -330,7 +323,7 @@ export default function Experience() {
         <button
           type="button"
           onClick={() => {
-            setAddingExperience(null);
+            setAddingExperience(false);
             setNewExperienceResp([{ text: "", id: crypto.randomUUID() }]);
           }}
         >
@@ -384,5 +377,3 @@ export default function Experience() {
     </section>
   );
 }
-
-// User can currently edit the one single experience section. They can also only edit the rigid three responsibility inputs that are given. Need to make the add responsibility button work and also make a way to delete responsibilities. Then add the logic for adding experience sections. Should also add logic to this and Education component to delete a section.

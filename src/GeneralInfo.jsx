@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./styles/GeneralInfo.css";
 
 export default function GeneralInfo() {
   const [editing, setEditing] = useState(false);
@@ -11,15 +12,30 @@ export default function GeneralInfo() {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    setFullName(tempName);
+    setPhoneNumber(tempPhoneNumber);
+    setEmail(tempEmail);
     setEditing(false);
-    setFullName(document.querySelector("#fullName").value);
-    setPhoneNumber(document.querySelector("#phoneNumber").value);
-    setEmail(document.querySelector("#email").value);
+  }
+
+  function handleEdit() {
+    setTempName(fullName);
+    setTempPhoneNumber(phoneNumber);
+    setTempEmail(email);
+    setEditing(true);
+  }
+
+  function handleCancel() {
+    setTempName(fullName);
+    setTempPhoneNumber(phoneNumber);
+    setTempEmail(email);
+    setEditing(false);
   }
 
   if (editing) {
     return (
-      <form action="#" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="fullName">Full Name</label>
         <input
           type="text"
@@ -45,15 +61,7 @@ export default function GeneralInfo() {
           onChange={(e) => setTempEmail(e.target.value)}
         />
         <button type="submit">Submit</button>
-        <button
-          type="button"
-          onClick={() => {
-            setEditing(false);
-            setTempName(fullName);
-            setTempPhoneNumber(phoneNumber);
-            setTempEmail(email);
-          }}
-        >
+        <button type="button" onClick={handleCancel}>
           Cancel
         </button>
       </form>
@@ -62,9 +70,11 @@ export default function GeneralInfo() {
   return (
     <section className="general-info">
       <h1>{fullName}</h1>
-      <h2>{phoneNumber}</h2>
-      <h2>{email}</h2>
-      <button onClick={() => setEditing(true)}>Edit</button>
+      <div className="secondary-info">
+        <p>{phoneNumber}</p>
+        <p>{email}</p>
+      </div>
+      <button onClick={handleEdit}>Edit</button>
     </section>
   );
 }

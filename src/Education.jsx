@@ -3,12 +3,12 @@ import { useState } from "react";
 function createEducationEntry() {
   return {
     schoolName: "Example University",
-    start: 2010,
-    end: 2014,
+    start: "2010",
+    end: "2014",
     degree: "Bachelor of Science in Something",
     location: "New York, NY",
-    gpa: 3.9,
-    gpaScale: 4.0,
+    gpa: "3.9",
+    gpaScale: "4.0",
     id: crypto.randomUUID(),
   };
 }
@@ -54,7 +54,7 @@ export default function Education() {
   }
 
   function handleDeleteEducation(id) {
-    setEducationData(educationData.filter((data) => data.id !== id));
+    setEducationData((prev) => prev.filter((data) => data.id !== id));
   }
 
   if (editingId !== null) {
@@ -66,7 +66,7 @@ export default function Education() {
 
     return (
       <form onSubmit={handleSubmit}>
-        <div className="education-info-block" key={cur.id}>
+        <div className="education-info-block">
           <label htmlFor={"school-name-" + cur.id}>School Name</label>
           <input
             type="text"
@@ -184,21 +184,29 @@ export default function Education() {
   if (addingEducation) {
     return (
       <form onSubmit={handleNewEducationSubmit} className="new-education-form">
-        <label htmlFor="school-name">School Name</label>
-        <input type="text" name="school-name" id="school-name" />
-        <label htmlFor="start">Start</label>
-        <input type="text" name="start" id="start" />
-        <label htmlFor="end">End</label>
-        <input type="text" name="end" id="end" />
-        <label htmlFor="degree">Degree</label>
-        <input type="text" name="degree" id="degree" />
-        <label htmlFor="location">Location</label>
-        <input type="text" name="location" id="location" />
-        <label htmlFor="gpa">GPA</label>
-        <input type="text" name="gpa" id="gpa" />
-        <label htmlFor="gpa-scale">GPA Scale</label>
-        <input type="text" name="gpa-scale" id="gpa-scale" />
+        <label htmlFor="education-school-name">School Name</label>
+        <input type="text" name="school-name" id="education-school-name" />
+
+        <label htmlFor="education-start">Start</label>
+        <input type="text" name="start" id="education-start" />
+
+        <label htmlFor="education-end">End</label>
+        <input type="text" name="end" id="education-end" />
+
+        <label htmlFor="education-degree">Degree</label>
+        <input type="text" name="degree" id="education-degree" />
+
+        <label htmlFor="education-location">Location</label>
+        <input type="text" name="location" id="education-location" />
+
+        <label htmlFor="education-gpa">GPA</label>
+        <input type="text" name="gpa" id="education-gpa" />
+
+        <label htmlFor="education-gpa-scale">GPA Scale</label>
+        <input type="text" name="gpa-scale" id="education-gpa-scale" />
+
         <button type="submit">Submit</button>
+
         <button type="button" onClick={() => setAddingEducation(false)}>
           Cancel
         </button>

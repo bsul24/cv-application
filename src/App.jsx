@@ -2,14 +2,17 @@ import { useState } from "react";
 import GeneralInfo from "./GeneralInfo.jsx";
 import Education from "./Education.jsx";
 import Experience from "./Experience.jsx";
-import "./App.css";
+import "./styles/App.css";
 
 export default function App() {
   return (
-    <>
-      <GeneralInfo />
-      <Education />
-      <Experience />
-    </>
+    <main className="app">
+      <button className="preview-button">Preview Resume</button>
+      <div className="resume">
+        <GeneralInfo />
+        <Education />
+        <Experience />
+      </div>
+    </main>
   );
 }

@@ -1,0 +1,16 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  background-color: oklch(92.3% 0.003 48.717);
+}
+
+.resume {
+  max-width: 800px;
+  min-height: 1000px;
+  margin: 50px auto 75px;
+  background-color: white;
+}
