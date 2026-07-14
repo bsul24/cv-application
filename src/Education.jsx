@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./styles/Education.css";
 
 function createEducationEntry() {
   return {
@@ -13,7 +14,7 @@ function createEducationEntry() {
   };
 }
 
-export default function Education() {
+export default function Education({ isPreviewing }) {
   const [editingId, setEditingId] = useState(null);
   const [addingEducation, setAddingEducation] = useState(false);
   const [educationData, setEducationData] = useState(() => [
@@ -57,7 +58,7 @@ export default function Education() {
     setEducationData((prev) => prev.filter((data) => data.id !== id));
   }
 
-  if (editingId !== null) {
+  if (editingId !== null && !isPreviewing) {
     const cur = tempEducationData.find((el) => el.id === editingId);
 
     if (!cur) {
@@ -166,22 +167,23 @@ export default function Education() {
             }
           />
         </div>
-
-        <button type="submit">Submit</button>
-        <button
-          type="button"
-          onClick={() => {
-            setEditingId(null);
-            setTempEducationData([]);
-          }}
-        >
-          Cancel
-        </button>
+        <div className="form-actions">
+          <button type="submit">Submit</button>
+          <button
+            type="button"
+            onClick={() => {
+              setEditingId(null);
+              setTempEducationData([]);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     );
   }
 
-  if (addingEducation) {
+  if (addingEducation && !isPreviewing) {
     return (
       <form onSubmit={handleNewEducationSubmit} className="new-education-form">
         <label htmlFor="education-school-name">School Name</label>
@@ -205,17 +207,20 @@ export default function Education() {
         <label htmlFor="education-gpa-scale">GPA Scale</label>
         <input type="text" name="gpa-scale" id="education-gpa-scale" />
 
-        <button type="submit">Submit</button>
+        <div className="form-actions">
+          <button type="submit">Submit</button>
 
-        <button type="button" onClick={() => setAddingEducation(false)}>
-          Cancel
-        </button>
+          <button type="button" onClick={() => setAddingEducation(false)}>
+            Cancel
+          </button>
+        </div>
       </form>
     );
   }
 
   return (
     <section className="education">
+      <h2>Education</h2>
       {educationData.map((cur) => {
         return (
           <div className="education-info" key={cur.id}>
@@ -228,25 +233,35 @@ export default function Education() {
             <h4>
               GPA: {cur.gpa}/{cur.gpaScale}
             </h4>
-            <button
-              onClick={() => {
-                setTempEducationData(
-                  educationData.map((cur) => {
-                    return { ...cur };
-                  }),
-                );
-                setEditingId(cur.id);
-              }}
-            >
-              Edit
-            </button>
-            <button type="button" onClick={() => handleDeleteEducation(cur.id)}>
-              Delete Education
-            </button>
+
+            {!isPreviewing && (
+              <>
+                <button
+                  onClick={() => {
+                    setTempEducationData(
+                      educationData.map((cur) => {
+                        return { ...cur };
+                      }),
+                    );
+                    setEditingId(cur.id);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteEducation(cur.id)}
+                >
+                  Delete Education
+                </button>
+              </>
+            )}
           </div>
         );
       })}
-      <button onClick={() => setAddingEducation(true)}>Add Education</button>
+      {!isPreviewing && (
+        <button onClick={() => setAddingEducation(true)}>Add Education</button>
+      )}
     </section>
   );
 }

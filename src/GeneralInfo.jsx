@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./styles/GeneralInfo.css";
 
-export default function GeneralInfo() {
+export default function GeneralInfo({ isPreviewing }) {
   const [editing, setEditing] = useState(false);
   const [fullName, setFullName] = useState("John Smith");
   const [tempName, setTempName] = useState("John Smith");
@@ -33,7 +33,7 @@ export default function GeneralInfo() {
     setEditing(false);
   }
 
-  if (editing) {
+  if (editing && !isPreviewing) {
     return (
       <form onSubmit={handleSubmit}>
         <label htmlFor="fullName">Full Name</label>
@@ -60,13 +60,16 @@ export default function GeneralInfo() {
           value={tempEmail}
           onChange={(e) => setTempEmail(e.target.value)}
         />
-        <button type="submit">Submit</button>
-        <button type="button" onClick={handleCancel}>
-          Cancel
-        </button>
+        <div className="form-actions">
+          <button type="submit">Submit</button>
+          <button type="button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
       </form>
     );
   }
+
   return (
     <section className="general-info">
       <h1>{fullName}</h1>
@@ -74,7 +77,7 @@ export default function GeneralInfo() {
         <p>{phoneNumber}</p>
         <p>{email}</p>
       </div>
-      <button onClick={handleEdit}>Edit</button>
+      {!isPreviewing && <button onClick={handleEdit}>Edit</button>}
     </section>
   );
 }

@@ -1,0 +1,88 @@
+.resume form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+}
+
+.resume form label {
+  margin-top: 0.5rem;
+  color: #343a40;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.resume form input {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #212529;
+}
+
+.resume form input:focus {
+  border-color: #495057;
+  outline: 2px solid rgb(73 80 87 / 20%);
+  outline-offset: 1px;
+}
+
+.resume form fieldset {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.resume form legend {
+  padding: 0 0.5rem;
+  color: #343a40;
+  font-weight: 600;
+}
+
+.resume form fieldset > div {
+  margin-bottom: 1rem;
+}
+
+.resume form fieldset input {
+  margin-top: 0.35rem;
+}
+
+.resume form button {
+  align-self: flex-start;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #343a40;
+  font-size: 0.875rem;
+}
+
+.resume form button:hover {
+  background-color: #e9ecef;
+}
+
+.resume form button[type="submit"] {
+  background-color: #343a40;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.resume form button[type="submit"]:hover {
+  background-color: #212529;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.form-actions button {
+  margin-top: 0;
+}

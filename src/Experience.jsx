@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./styles/Experience.css";
 
 function createExperienceEntry() {
   return {
@@ -16,7 +17,7 @@ function createExperienceEntry() {
   };
 }
 
-export default function Experience() {
+export default function Experience({ isPreviewing }) {
   const [editingId, setEditingId] = useState(null);
   const [addingExperience, setAddingExperience] = useState(false);
   const [experienceData, setExperienceData] = useState(() => [
@@ -136,7 +137,7 @@ export default function Experience() {
     setNewExperienceResp((prev) => prev.filter((exp) => exp.id !== id));
   }
 
-  if (editingId !== null) {
+  if (editingId !== null && !isPreviewing) {
     const cur = tempExperienceData.find((el) => el.id === editingId);
 
     if (!cur) {
@@ -153,8 +154,8 @@ export default function Experience() {
             id={"company-" + cur.id}
             value={cur.company}
             onChange={(e) => {
-              setTempExperienceData(
-                tempExperienceData.map((el) =>
+              setTempExperienceData((prev) =>
+                prev.map((el) =>
                   el.id === cur.id ? { ...el, company: e.target.value } : el,
                 ),
               );
@@ -167,8 +168,8 @@ export default function Experience() {
             id={"start-" + cur.id}
             value={cur.start}
             onChange={(e) => {
-              setTempExperienceData(
-                tempExperienceData.map((el) =>
+              setTempExperienceData((prev) =>
+                prev.map((el) =>
                   el.id === cur.id ? { ...el, start: e.target.value } : el,
                 ),
               );
@@ -181,8 +182,8 @@ export default function Experience() {
             id={"end-" + cur.id}
             value={cur.end}
             onChange={(e) => {
-              setTempExperienceData(
-                tempExperienceData.map((el) =>
+              setTempExperienceData((prev) =>
+                prev.map((el) =>
                   el.id === cur.id ? { ...el, end: e.target.value } : el,
                 ),
               );
@@ -195,8 +196,8 @@ export default function Experience() {
             id={"position-" + cur.id}
             value={cur.position}
             onChange={(e) => {
-              setTempExperienceData(
-                tempExperienceData.map((el) =>
+              setTempExperienceData((prev) =>
+                prev.map((el) =>
                   el.id === cur.id ? { ...el, position: e.target.value } : el,
                 ),
               );
@@ -209,8 +210,8 @@ export default function Experience() {
             id={"location-" + cur.id}
             value={cur.location}
             onChange={(e) => {
-              setTempExperienceData(
-                tempExperienceData.map((el) =>
+              setTempExperienceData((prev) =>
+                prev.map((el) =>
                   el.id === cur.id ? { ...el, location: e.target.value } : el,
                 ),
               );
@@ -251,21 +252,23 @@ export default function Experience() {
             Add Responsibility
           </button>
         </div>
-        <button type="submit">Submit</button>
-        <button
-          type="button"
-          onClick={() => {
-            setEditingId(null);
-            setTempExperienceData([]);
-          }}
-        >
-          Cancel
-        </button>
+        <div className="form-actions">
+          <button type="submit">Submit</button>
+          <button
+            type="button"
+            onClick={() => {
+              setEditingId(null);
+              setTempExperienceData([]);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     );
   }
 
-  if (addingExperience) {
+  if (addingExperience && !isPreviewing) {
     return (
       <form
         onSubmit={handleNewExperienceSubmit}
@@ -319,22 +322,25 @@ export default function Experience() {
             Add Responsibility
           </button>
         </fieldset>
-        <button type="submit">Submit</button>
-        <button
-          type="button"
-          onClick={() => {
-            setAddingExperience(false);
-            setNewExperienceResp([{ text: "", id: crypto.randomUUID() }]);
-          }}
-        >
-          Cancel
-        </button>
+        <div className="form-actions">
+          <button type="submit">Submit</button>
+          <button
+            type="button"
+            onClick={() => {
+              setAddingExperience(false);
+              setNewExperienceResp([{ text: "", id: crypto.randomUUID() }]);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     );
   }
 
   return (
     <section className="experience">
+      <h2>Experience</h2>
       {experienceData.map((cur) => {
         return (
           <div className="experience-info" key={cur.id}>
@@ -349,31 +355,37 @@ export default function Experience() {
                 <li key={item.id}>{item.text}</li>
               ))}
             </ul>
-            <button
-              type="button"
-              onClick={() => {
-                setTempExperienceData(
-                  experienceData.map((cur) => {
-                    return { ...cur };
-                  }),
-                );
-                setEditingId(cur.id);
-              }}
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDeleteExperience(cur.id)}
-            >
-              Delete Experience
-            </button>
+            {!isPreviewing && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTempExperienceData(
+                      experienceData.map((cur) => {
+                        return { ...cur };
+                      }),
+                    );
+                    setEditingId(cur.id);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteExperience(cur.id)}
+                >
+                  Delete Experience
+                </button>
+              </>
+            )}
           </div>
         );
       })}
-      <button type="button" onClick={() => setAddingExperience(true)}>
-        Add Experience
-      </button>
+      {!isPreviewing && (
+        <button type="button" onClick={() => setAddingExperience(true)}>
+          Add Experience
+        </button>
+      )}
     </section>
   );
 }

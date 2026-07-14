@@ -1,3 +1,36 @@
 .general-info {
+  position: relative;
+  text-align: center;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #343a40;
+}
+
+.general-info h1 {
+  margin-bottom: 0.75rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.secondary-info {
   display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.general-info button {
+  margin-top: 1rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #adb5bd;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #343a40;
+  font-size: 0.875rem;
+}
+
+.general-info button:hover {
+  background-color: #e9ecef;
 }
