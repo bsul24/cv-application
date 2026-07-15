@@ -1,8 +1,9 @@
-import GeneralInfo from "./GeneralInfo.jsx";
-import Education from "./Education.jsx";
-import Experience from "./Experience.jsx";
+import GeneralInfo from "./components/GeneralInfo.jsx";
+import Education from "./components/Education.jsx";
+import Experience from "./components/Experience.jsx";
 import "./styles/App.css";
 import "./styles/Forms.css";
+import "./styles/Controls.css";
 import { useState } from "react";
 
 export default function App() {

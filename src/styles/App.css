@@ -26,3 +26,18 @@
   background-color: #ffffff;
   box-shadow: 0 4px 18px rgb(0 0 0 / 12%);
 }
+
+@media (max-width: 600px) {
+  .app {
+    padding: 1rem 0.5rem;
+  }
+
+  .resume {
+    min-height: auto;
+    padding: 1.5rem 1rem;
+  }
+
+  .preview-button {
+    margin-bottom: 1rem;
+  }
+}

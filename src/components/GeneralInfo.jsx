@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles/GeneralInfo.css";
+import "../styles/GeneralInfo.css";
 
 export default function GeneralInfo({ isPreviewing }) {
   const [editing, setEditing] = useState(false);
@@ -36,6 +36,7 @@ export default function GeneralInfo({ isPreviewing }) {
   if (editing && !isPreviewing) {
     return (
       <form onSubmit={handleSubmit}>
+        <h2>Edit General Information</h2>
         <label htmlFor="fullName">Full Name</label>
         <input
           type="text"
@@ -77,7 +78,11 @@ export default function GeneralInfo({ isPreviewing }) {
         <p>{phoneNumber}</p>
         <p>{email}</p>
       </div>
-      {!isPreviewing && <button onClick={handleEdit}>Edit</button>}
+      {!isPreviewing && (
+        <button className="action-button" onClick={handleEdit}>
+          Edit
+        </button>
+      )}
     </section>
   );
 }

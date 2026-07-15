@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles/Education.css";
+import "../styles/Education.css";
 
 function createEducationEntry() {
   return {
@@ -67,6 +67,7 @@ export default function Education({ isPreviewing }) {
 
     return (
       <form onSubmit={handleSubmit}>
+        <h2>Edit Education</h2>
         <div className="education-info-block">
           <label htmlFor={"school-name-" + cur.id}>School Name</label>
           <input
@@ -186,6 +187,7 @@ export default function Education({ isPreviewing }) {
   if (addingEducation && !isPreviewing) {
     return (
       <form onSubmit={handleNewEducationSubmit} className="new-education-form">
+        <h2>Add Education</h2>
         <label htmlFor="education-school-name">School Name</label>
         <input type="text" name="school-name" id="education-school-name" />
 
@@ -237,6 +239,7 @@ export default function Education({ isPreviewing }) {
             {!isPreviewing && (
               <>
                 <button
+                  className="action-button"
                   onClick={() => {
                     setTempEducationData(
                       educationData.map((cur) => {
@@ -249,6 +252,7 @@ export default function Education({ isPreviewing }) {
                   Edit
                 </button>
                 <button
+                  className="action-button delete-button"
                   type="button"
                   onClick={() => handleDeleteEducation(cur.id)}
                 >
@@ -260,7 +264,12 @@ export default function Education({ isPreviewing }) {
         );
       })}
       {!isPreviewing && (
-        <button onClick={() => setAddingEducation(true)}>Add Education</button>
+        <button
+          className="action-button add-button"
+          onClick={() => setAddingEducation(true)}
+        >
+          Add Education
+        </button>
       )}
     </section>
   );

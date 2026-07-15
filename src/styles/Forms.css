@@ -86,3 +86,30 @@
 .form-actions button {
   margin-top: 0;
 }
+
+.resume form .delete-button {
+  border-color: #e03131;
+  color: #c92a2a;
+}
+
+.resume form .delete-button:hover {
+  background-color: #fff5f5;
+}
+
+@media (max-width: 600px) {
+  .resume form {
+    padding: 1rem;
+  }
+
+  .resume form fieldset {
+    padding: 0.75rem;
+  }
+
+  .form-actions {
+    flex-wrap: wrap;
+  }
+
+  .resume form button {
+    max-width: 100%;
+  }
+}

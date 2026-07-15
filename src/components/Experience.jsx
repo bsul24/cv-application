@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles/Experience.css";
+import "../styles/Experience.css";
 
 function createExperienceEntry() {
   return {
@@ -146,6 +146,7 @@ export default function Experience({ isPreviewing }) {
 
     return (
       <form onSubmit={handleSubmit}>
+        <h2>Edit Experience</h2>
         <div className="experience-info-block">
           <label htmlFor={"company-" + cur.id}>Company</label>
           <input
@@ -237,6 +238,7 @@ export default function Experience({ isPreviewing }) {
                     }
                   />
                   <button
+                    className="delete-button"
                     type="button"
                     onClick={() =>
                       handleDeleteEditResponsibility(cur.id, responsibility.id)
@@ -274,6 +276,7 @@ export default function Experience({ isPreviewing }) {
         onSubmit={handleNewExperienceSubmit}
         className="new-experience-form"
       >
+        <h2>Add Experience</h2>
         <label htmlFor="experience-company">Company</label>
         <input type="text" name="company" id="experience-company" />
         <label htmlFor="experience-start">Start</label>
@@ -302,6 +305,7 @@ export default function Experience({ isPreviewing }) {
                   onChange={(e) => handleChangeNewResponsibility(e, resp)}
                 />
                 <button
+                  className="delete-button"
                   type="button"
                   onClick={() => handleDeleteResponsibility(resp.id)}
                 >
@@ -358,6 +362,7 @@ export default function Experience({ isPreviewing }) {
             {!isPreviewing && (
               <>
                 <button
+                  className="action-button"
                   type="button"
                   onClick={() => {
                     setTempExperienceData(
@@ -371,6 +376,7 @@ export default function Experience({ isPreviewing }) {
                   Edit
                 </button>
                 <button
+                  className="action-button delete-button"
                   type="button"
                   onClick={() => handleDeleteExperience(cur.id)}
                 >
@@ -382,7 +388,11 @@ export default function Experience({ isPreviewing }) {
         );
       })}
       {!isPreviewing && (
-        <button type="button" onClick={() => setAddingExperience(true)}>
+        <button
+          className="action-button add-button"
+          type="button"
+          onClick={() => setAddingExperience(true)}
+        >
           Add Experience
         </button>
       )}

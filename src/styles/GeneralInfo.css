@@ -21,16 +21,18 @@
   font-size: 0.95rem;
 }
 
-.general-info button {
-  margin-top: 1rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #adb5bd;
-  border-radius: 4px;
-  background-color: #f8f9fa;
-  color: #343a40;
-  font-size: 0.875rem;
-}
+@media (max-width: 600px) {
+  .general-info {
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 
-.general-info button:hover {
-  background-color: #e9ecef;
+  .general-info h1 {
+    font-size: 1.8rem;
+  }
+
+  .secondary-info {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
 }

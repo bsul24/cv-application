@@ -38,19 +38,36 @@
   line-height: 1.5;
 }
 
-.experience-info button,
-.experience > button {
-  margin-top: 0.75rem;
-  margin-right: 0.5rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #adb5bd;
-  border-radius: 4px;
-  background-color: #f8f9fa;
-  color: #343a40;
-  font-size: 0.875rem;
+.experience-info + .experience-info {
+  margin-top: 1.75rem;
 }
 
-.experience-info button:hover,
-.experience > button:hover {
-  background-color: #e9ecef;
+@media (max-width: 600px) {
+  .experience {
+    margin-bottom: 2rem;
+  }
+
+  .experience > h2 {
+    font-size: 1.1rem;
+  }
+
+  .experience-info {
+    margin-bottom: 1.5rem;
+  }
+
+  .experience-info h3 {
+    font-size: 1rem;
+  }
+
+  .experience-info h4 {
+    font-size: 0.9rem;
+  }
+
+  .experience-info ul {
+    padding-left: 1.25rem;
+  }
+
+  .experience-info li {
+    font-size: 0.95rem;
+  }
 }
